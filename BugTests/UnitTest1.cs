@@ -3,114 +3,128 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BugTests
 {
     [TestClass]
-    public class Tests
-    {
-        [TestMethod]
-        public void ExpectOk_Constructor()
-        {
-            Bug bug = new Bug(Bug.State.Open);
-        }
+    public class OpenStateTests {
+	private Bug bug;
 
-        [TestMethod]
-        public void ExpectOk_GetState()
-        {
-            Bug bug = new Bug(Bug.State.Open);
-	    Assert.AreEqual(Bug.State.Open, bug.getState());
-        }
+        [TestInitialize]
+	public void Initialize() {
+	    bug = new Bug(Bug.State.Open);
+	}
 
-        [TestMethod]
-        public void ExpectOk_AssignFromOpen()
-        {
-            Bug bug = new Bug(Bug.State.Open);
+	[TestMethod]
+	public void TestAssign() {
             bug.Assign();
 	    Assert.AreEqual(Bug.State.Assigned, bug.getState());
-        }
+	}
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void ExpectError_DeferFromOpen()
+        public void TestDeferShouldThrow()
         {
-            Bug bug = new Bug(Bug.State.Open);
             bug.Defer();
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void ExpectError_CloseFromOpen()
-        {
-            Bug bug = new Bug(Bug.State.Open);
+	public void TestClose()
+	{
             bug.Close();
-        }
+	}
+    }
+
+    [TestClass]
+    public class AssignedStateTests {
+	private Bug bug;
+
+        [TestInitialize]
+	public void Initialize() {
+	    bug = new Bug(Bug.State.Assigned);
+	}
 
         [TestMethod]
-        public void ExpectOk_AssignFromAssigned()
+        public void TestAssign()
         {
-            Bug bug = new Bug(Bug.State.Assigned);
             bug.Assign();
 	    Assert.AreEqual(Bug.State.Assigned, bug.getState());
         }
 
         [TestMethod]
-        public void ExpectOk_DeferFromAssigned()
+        public void TestDefer()
         {
-            Bug bug = new Bug(Bug.State.Assigned);
             bug.Defer();
 	    Assert.AreEqual(Bug.State.Defered, bug.getState());
         }
 
         [TestMethod]
-        public void ExpectOk_CloseFromAssigned()
+        public void TestClose()
         {
-            Bug bug = new Bug(Bug.State.Assigned);
             bug.Close();
 	    Assert.AreEqual(Bug.State.Closed, bug.getState());
         }
 
+    }
+
+    [TestClass]
+    public class DeferedStateTests {
+	private Bug bug;
+
+        [TestInitialize]
+	public void Initialize() {
+	    bug = new Bug(Bug.State.Defered);
+	}
+
+
         [TestMethod]
-        public void ExpectOk_AssignFromDefered()
+        public void TestAssign()
         {
-            Bug bug = new Bug(Bug.State.Defered);
             bug.Assign();
 	    Assert.AreEqual(Bug.State.Assigned, bug.getState());
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void ExpectError_DeferFromDefered()
+        public void TestDeferShouldThrow()
         {
-            Bug bug = new Bug(Bug.State.Defered);
             bug.Defer();
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void ExpectError_CloseFromDefered()
+        public void TestCloseShouldThrow()
         {
-            Bug bug = new Bug(Bug.State.Defered);
             bug.Close();
         }
 
+    }
+
+    [TestClass]
+    public class ClosedStateTests
+    {
+	private Bug bug;
+
+        [TestInitialize]
+	public void Initialize() {
+	    bug = new Bug(Bug.State.Closed);
+	}
+
         [TestMethod]
-        public void ExpectOk_AssignFromClosed()
+        public void TestAssign()
         {
-            Bug bug = new Bug(Bug.State.Closed);
             bug.Assign();
 	    Assert.AreEqual(Bug.State.Assigned, bug.getState());
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void ExpectError_DeferFromClosed()
+        public void TestDeferShouldThrow()
         {
-            Bug bug = new Bug(Bug.State.Closed);
             bug.Defer();
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void ExpectError_CloseFromClosed()
+        public void TestClose()
         {
-            Bug bug = new Bug(Bug.State.Closed);
             bug.Close();
         }
     }
